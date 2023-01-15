@@ -1,51 +1,67 @@
 import datetime
-import database
+#import database
 
 menu = """Please select one of the following options: 
  1) Add new Vehicle
  2) Add Maintenance Event
- 3) View all Mainenance Events
- 4) View Maintenance Events for a Vehicle
- 5) Exit
+ 3) View all Vehicles
+ 4) View all Mainenance Events
+ 5) View Maintenance Events for a Vehicle
+ 6) Exit
 
  Your Selection: """
  
 welcome_message = "Sudzypets Van Maintenance Log"
 
-def add_movie():
-    title = input("What is the name of the movie: ")
-    release_date = input("What is the release date (dd-mm-yyyy): ")
-    parsed_date = datetime.datetime.strptime(release_date, "%d-%m-%Y")
-    timestamp = parsed_date.timestamp()
-    
-    database.add_movie(title, timestamp)
+def add_vehicle():
+    vehicle_id = input("What is the id of the new vehicle: ")
+    vehicle_year = input("What is the year for the vehicle: ")
+    vehicle_make = input("What is the year for the vehicle: ")
+    vehicle_model = input("What is the year for the vehicle: ")
+    database.add_vehicle(vehicle_id,\
+                        vehicle_year,\
+                        vehicle_make,\
+                        vehicle_model)
 
-def display_movies(heading, movies):
-    print(f"{heading} Movies List")
+def add_maintenance():
+    vehicle_id = input("What is the id of the vehicle receiving maintenance: ")
+    maintenance_location = input("Where was the vehicle serviced: ")
+    service_performed= input("What service was performed: ")
+    maintenance_cost = input("How much was the maintenance: ")
+    vehicle_miles = input("How many miles are on the vehicle: ")
+    maintenance_date = input("What date was the maintenance performed (dd-mm-yyyy): ")
+    parsed_date = datetime.datetime.strptime(maintenance_date, "%d-%m-%Y")
+    timestamp = parsed_date.timestamp()
+    database.add_maintenance(vehicle_id,\
+                            maintenance_location, \
+                            service_performed, \
+                            maintenance_cost, \
+                            vehicle_miles, \
+                            timestamp)
+
+def display_maintenance(vehicle_maintenance_list):
+    print(f"{heading} Maintenance List")
+    for vehicle_id, maintenance_localtion, service_performed, maintenance_cost, vehicle_miles, timestamp,  in vehicle_maintenance_list:
+        maintenance_date = datetime.datetime.fromtimestamp(timestamp).strftime("%b %d %Y")
+        print(f"{vehicle_id}: {maintenance_localtion} {service_performed} {maintenance_cost} {vehicle_miles} - performed on {maintenance_date}")
+    print("---\n")
+
+def display_vehicles(vehicle):
+    print(f"{heading} Vehicle List")
     for _id, title, release_date in movies:
         movie_date = datetime.datetime.fromtimestamp(release_date).strftime("%b %d %Y")
         print(f"{_id}: {title} - released on {movie_date}")
     print("---\n")
 
 
-def watch_movie():
-    username = input("Username: ")
-    movie_id = input("What movie id do you want to watch? ")
-    database.watch_movie(username, movie_id)
-
-def add_user():
-    username = input("What is the name of the new user? ")
-    database.add_user(username)
-
 print(welcome_message)
 database.create_tables()
 
-while (user_input := input(menu)) !='8':
+while (user_input := input(menu)) !='6':
     if user_input == "1":
-        add_movie()
+        add_vehicle()
     elif user_input == "2":
-        movies = database.get_movies(True)
-        display_movies("Upcoming", movies)
+        add_maintenance()
     elif user_input == "3":
         movies = database.get_movies()
         display_movies("All", movies)

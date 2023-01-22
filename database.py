@@ -1,34 +1,28 @@
 import datetime
 import sqlite3
 
-CREATE_MOVIES_TABLE = """CREATE TABLE IF NOT EXISTS movies (
+CREATE_MAINTENANCE_TABLE = """CREATE TABLE IF NOT EXISTS maintenance (
    id INTEGER PRIMARY KEY,
-   title TEXT,
-   release_timestamp REAL
+   location TEXT,
+   service_performed TEXT,
+   vehicle_miles
+   service_date REAL
 );"""
 
-CREATE_USERS_TABLE = """CREATE TABLE IF NOT EXISTS users (
-   username TEXT PRIMARY KEY
+CREATE_VEHICLE_TABLE = """CREATE TABLE IF NOT EXISTS vehicles (
+   id INTEGER PRIMARY KEY,
+   vehicle_year,
+   vehicle_make,
+   vehicle_model,
+   vehicle_garage,
+   active
 );"""
 
-CREATE_WATCHED_TABLE = """CREATE TABLE IF NOT EXISTS watched (
-   user_username TEXT,
-   movie_id INTEGER,
-   FOREIGN KEY (user_username) references users(username)
-   FOREIGN KEY (movie_id) references movies(id)
-);"""
-
-CREATE_INDEX_MOVIE_RELEASE = "CREATE INDEX IF NOT EXISTS idx_movies_release ON movies(release_timestamp);"
-
-INSERT_MOVIES = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
-INSERT_USER = "INSERT INTO users (username) VALUES (?)"
-DELETE_MOVIE = "DELETE FROM movies WHERE title = ?;"
-SEARCH_MOVIES = "SELECT * FROM movies WHERE title like ?;"
-SELECT_ALL_MOVIES = "SELECT * FROM movies;"
-SELECT_UPCOMING_MOVIES = "SELECT * FROM movies where release_timestamp > ?;"
-INSERT_WATCHED_MOVIES = "INSERT INTO watched (user_username, movie_id) VALUES (?, ?)"
-SET_WATCHED_MOVIE = "UPDATE movies SET watched = 1 WHERE title = ?;"
-SELECT_WATCHED_MOVIES = """SELECT movies.*
+INSERT_MAINTENANCE = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
+INSERT_VEHICLE = "INSERT INTO users (username) VALUES (?)"
+SEARCH_MAINTENANCE = "SELECT * FROM movies WHERE title like ?;"
+SELECT_ALL_MAINTENANCE = "SELECT * FROM movies;"
+SELECT_MAINTENANCE_FOR_VEHICLE = """SELECT movies.*
                             FROM movies
                             JOIN watched ON movies.id = watched.movie_id
                             JOIN users ON users.username = watched.user_username
@@ -39,52 +33,36 @@ connection = sqlite3.connect("data.db")
 
 def create_tables():
     with connection:
-        connection.execute(CREATE_MOVIES_TABLE)
-        connection.execute(CREATE_USERS_TABLE)
-        connection.execute(CREATE_WATCHED_TABLE)
-        connection.execute(CREATE_INDEX_MOVIE_RELEASE)
+        connection.execute(CREATE_MAINTENANCE_TABLE)
+        connection.execute(CREATE_VEHICLE_TABLE)
 
 
-def add_user(username):
+def add_vehicle(username):
     with connection:
-        connection.execute(INSERT_USER, (username,))
+        connection.execute(INSERT_VEHICLE, (username,))
 
 
-def add_movie(title, release_timestamp):
+def add_maintenance(title, release_timestamp):
     with connection:
-        connection.execute(INSERT_MOVIES, (title, release_timestamp))
+        connection.execute(INSERT_MAINTENANCE, (title, release_timestamp))
 
 
-def get_movies(upcoming=False):
+def search_maintenance():
     with connection:
         cursor = connection.cursor()
-        if upcoming:
-            today_timestamp = datetime.datetime.today().timestamp()
-            cursor.execute(SELECT_UPCOMING_MOVIES, (today_timestamp,))
-        else:
-            cursor.execute(SELECT_ALL_MOVIES)
+        cursor.execute(SEARCH_MAINTENANCE, (f'%{movie}%',))
         return cursor.fetchall()
 
 
-def search_movies(movie):
+def get_all_maintenance():
     with connection:
         cursor = connection.cursor()
-        cursor.execute(SEARCH_MOVIES, (f'%{movie}%',))
+        cursor.execute(SELECT_ALL_MAINTENANCE, (username,))
         return cursor.fetchall()
 
 
-def watch_movie(username, movie_id):
-    with connection:
-        connection.execute(INSERT_WATCHED_MOVIES, (username, movie_id))
-
-
-def get_watched_movies(username):
+def get_maintenance_for_vehicle():
     with connection:
         cursor = connection.cursor()
-        cursor.execute(SELECT_WATCHED_MOVIES, (username,))
+        cursor.execute(SELECT_ALL_MAINTENANCE, (username,))
         return cursor.fetchall()
-
-
-def delete_movie(title):
-    with connection:
-        connection.execute(DELETE_MOVIE, (title,))

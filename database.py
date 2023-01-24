@@ -19,7 +19,7 @@ CREATE_VEHICLE_TABLE = """CREATE TABLE IF NOT EXISTS vehicles (
 );"""
 
 INSERT_MAINTENANCE = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
-INSERT_VEHICLE = "INSERT INTO users (username) VALUES (?)"
+INSERT_VEHICLE = "INSERT INTO vehicles (vehicle_year, vehicle_make, vehicle_model, vehicle_garage) VALUES (?, ?, ?, ?)"
 SEARCH_MAINTENANCE = "SELECT * FROM movies WHERE title like ?;"
 SELECT_ALL_MAINTENANCE = "SELECT * FROM movies;"
 SELECT_MAINTENANCE_FOR_VEHICLE = """SELECT movies.*
@@ -37,9 +37,9 @@ def create_tables():
         connection.execute(CREATE_VEHICLE_TABLE)
 
 
-def add_vehicle(username):
+def add_vehicle(vehicle_year, vehicle_make, vehicle_model, vehicle_garage):
     with connection:
-        connection.execute(INSERT_VEHICLE, (username,))
+        connection.execute(INSERT_VEHICLE, (vehicle_year, vehicle_make, vehicle_model, vehicle_garage))
 
 
 def add_maintenance(title, release_timestamp):

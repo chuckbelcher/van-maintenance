@@ -15,12 +15,11 @@ welcome_message = "Sudzypets Van Maintenance Log"
 
 
 def add_vehicle():
-    vehicle_id = input("What is the id of the new vehicle: ")
     vehicle_year = input("What is the year for the vehicle: ")
-    vehicle_make = input("What is the year for the vehicle: ")
-    vehicle_model = input("What is the year for the vehicle: ")
+    vehicle_make = input("What is the make for the vehicle: ")
+    vehicle_model = input("What is the model for the vehicle: ")
     vehicle_garage = input("Where is the vehicle stored: ")
-    database.add_vehicle(vehicle_id,
+    database.add_vehicle(
                          vehicle_year,
                          vehicle_make,
                          vehicle_model,

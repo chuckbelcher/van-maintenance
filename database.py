@@ -3,6 +3,7 @@ import sqlite3
 
 CREATE_MAINTENANCE_TABLE = """CREATE TABLE IF NOT EXISTS maintenance (
    id INTEGER PRIMARY KEY,
+   vehicle_id NUMBER
    location TEXT,
    service_performed TEXT,
    vehicle_miles
@@ -18,10 +19,10 @@ CREATE_VEHICLE_TABLE = """CREATE TABLE IF NOT EXISTS vehicles (
    active
 );"""
 
-INSERT_MAINTENANCE = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
+#INSERT_MAINTENANCE = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
 INSERT_VEHICLE = "INSERT INTO vehicles (vehicle_year, vehicle_make, vehicle_model, vehicle_garage) VALUES (?, ?, ?, ?)"
-SEARCH_MAINTENANCE = "SELECT * FROM movies WHERE title like ?;"
-SELECT_ALL_MAINTENANCE = "SELECT * FROM movies;"
+#SEARCH_MAINTENANCE = "SELECT * FROM movies WHERE title like ?;"
+#SELECT_ALL_MAINTENANCE = "SELECT * FROM movies;"
 SELECT_ALL_VEHICLES = "SELECT * FROM vehicles;"
 SELECT_MAINTENANCE_FOR_VEHICLE = """SELECT movies.*
                             FROM movies

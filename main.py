@@ -19,6 +19,7 @@ def add_vehicle():
     vehicle_make = input("What is the make for the vehicle: ")
     vehicle_model = input("What is the model for the vehicle: ")
     vehicle_garage = input("Where is the vehicle stored: ")
+    vehicle_garage = input("Is Vehicle active: ")
     database.add_vehicle(
                          vehicle_year,
                          vehicle_make,
@@ -53,12 +54,15 @@ def display_maintenance(vehicle_maintenance_list):
     print("---\n")
 
 
-def display_vehicles(vehicle):
-    print(f"{heading} Vehicle List")
-    for _id, title, release_date in movies:
-        movie_date = datetime.datetime.fromtimestamp(
-            release_date).strftime("%b %d %Y")
-        print(f"{_id}: {title} - released on {movie_date}")
+def display_vehicles(vehicles):
+    print(" Vehicle List")
+    for _id, year, make, model, garage, active in vehicles:
+        if active == 'Y':
+            currentUse = 'In use'
+        else:
+            currentUse = "Not in use"
+        print(f"{_id}: {year} {make} {model} {currentUse} located at {garage}")
+    #print (vehicles)
     print("---\n")
 
 
@@ -71,8 +75,8 @@ while (user_input := input(menu)) != '6':
     elif user_input == "2":
         add_maintenance()
     elif user_input == "3":
-        movies = database.get_movies()
-        display_movies("All", movies)
+        vehicles = database.get_vehicles()
+        display_vehicles(vehicles)
     elif user_input == "4":
         watch_movie()
     elif user_input == "5":

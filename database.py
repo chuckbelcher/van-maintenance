@@ -22,6 +22,7 @@ INSERT_MAINTENANCE = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?
 INSERT_VEHICLE = "INSERT INTO vehicles (vehicle_year, vehicle_make, vehicle_model, vehicle_garage) VALUES (?, ?, ?, ?)"
 SEARCH_MAINTENANCE = "SELECT * FROM movies WHERE title like ?;"
 SELECT_ALL_MAINTENANCE = "SELECT * FROM movies;"
+SELECT_ALL_VEHICLES = "SELECT * FROM vehicles;"
 SELECT_MAINTENANCE_FOR_VEHICLE = """SELECT movies.*
                             FROM movies
                             JOIN watched ON movies.id = watched.movie_id
@@ -53,6 +54,11 @@ def search_maintenance():
         cursor.execute(SEARCH_MAINTENANCE, (f'%{movie}%',))
         return cursor.fetchall()
 
+def get_vehicles():
+    with connection:
+        cursor = connection.cursor()
+        cursor.execute(SELECT_ALL_VEHICLES)
+        return cursor.fetchall()
 
 def get_all_maintenance():
     with connection:

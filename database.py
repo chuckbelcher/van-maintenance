@@ -3,11 +3,13 @@ import sqlite3
 
 CREATE_MAINTENANCE_TABLE = """CREATE TABLE IF NOT EXISTS maintenance (
    id INTEGER PRIMARY KEY,
-   vehicle_id NUMBER
+   vehicle_id INTEGER,
    location TEXT,
    service_performed TEXT,
-   vehicle_miles
-   service_date REAL
+   vehicle_miles INTEGER,
+   price FLOAT,
+   service_date REAL,
+   FOREIGN KEY (vehicle_id) references vehicles(id)
 );"""
 
 CREATE_VEHICLE_TABLE = """CREATE TABLE IF NOT EXISTS vehicles (
@@ -19,7 +21,8 @@ CREATE_VEHICLE_TABLE = """CREATE TABLE IF NOT EXISTS vehicles (
    active
 );"""
 
-#INSERT_MAINTENANCE = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
+INSERT_MAINTENANCE = "INSERT INTO maintenance (vehicle_id, location, service_performed, price, vehicle_miles, service_date) VALUES (?, ?, ?, ?, ?, ?)"
+
 INSERT_VEHICLE = "INSERT INTO vehicles (vehicle_year, vehicle_make, vehicle_model, vehicle_garage) VALUES (?, ?, ?, ?)"
 #SEARCH_MAINTENANCE = "SELECT * FROM movies WHERE title like ?;"
 #SELECT_ALL_MAINTENANCE = "SELECT * FROM movies;"
@@ -44,9 +47,10 @@ def add_vehicle(vehicle_year, vehicle_make, vehicle_model, vehicle_garage):
         connection.execute(INSERT_VEHICLE, (vehicle_year, vehicle_make, vehicle_model, vehicle_garage))
 
 
-def add_maintenance(title, release_timestamp):
+def add_maintenance(vehicle_id, location, service_performed, price, vehicle_miles, service_date):
+    print(vehicle_id, location, service_performed, price, vehicle_miles, service_date)
     with connection:
-        connection.execute(INSERT_MAINTENANCE, (title, release_timestamp))
+        connection.execute(INSERT_MAINTENANCE, (vehicle_id, location, service_performed, price, vehicle_miles, service_date))
 
 
 def search_maintenance():

@@ -19,15 +19,18 @@ def add_vehicle():
     vehicle_make = input("What is the make for the vehicle: ")
     vehicle_model = input("What is the model for the vehicle: ")
     vehicle_garage = input("Where is the vehicle stored: ")
-    vehicle_garage = input("Is Vehicle active: ")
+    vehicle_active = input("Is Vehicle active Y for yes or N for no: ")
     database.add_vehicle(
                          vehicle_year,
                          vehicle_make,
                          vehicle_model,
-                         vehicle_garage)
+                         vehicle_garage,
+                         vehicle_active)
 
 
 def add_maintenance():
+    display_vehicles(database.get_vehicles())
+    
     vehicle_id = input("What is the id of the vehicle receiving maintenance: ")
     maintenance_location = input("Where was the vehicle serviced: ")
     service_performed = input("What service was performed: ")
@@ -61,6 +64,7 @@ def display_vehicles(vehicles):
             currentUse = 'In use'
         else:
             currentUse = "Not in use"
+        print(vehicles)
         print(f"{_id}: {year} {make} {model} {currentUse} located at {garage}")
     #print (vehicles)
     print("---\n")

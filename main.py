@@ -11,7 +11,7 @@ menu = """Please select one of the following options:
 
  Your Selection: """
 
-welcome_message = "Sudzypets Van Maintenance Log"
+welcome_message = "Sudzy Pets Van Maintenance Log"
 
 
 def add_vehicle():

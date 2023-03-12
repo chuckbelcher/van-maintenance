@@ -24,9 +24,8 @@ CREATE_VEHICLE_TABLE = """CREATE TABLE IF NOT EXISTS vehicles (
 INSERT_MAINTENANCE = "INSERT INTO maintenance (vehicle_id, location, service_performed, price, vehicle_miles, service_date) VALUES (?, ?, ?, ?, ?, ?)"
 
 INSERT_VEHICLE = "INSERT INTO vehicles (vehicle_year, vehicle_make, vehicle_model, vehicle_garage, active) VALUES (?, ?, ?, ?, ?)"
-#SEARCH_MAINTENANCE = "SELECT * FROM movies WHERE title like ?;"
-#SELECT_ALL_MAINTENANCE = "SELECT * FROM movies;"
 SELECT_ALL_VEHICLES = "SELECT * FROM vehicles;"
+SELECT_ALL_MAINTENANCE = "SELECT * FROM maintenance;"
 SELECT_MAINTENANCE_FOR_VEHICLE = """SELECT movies.*
                             FROM movies
                             JOIN watched ON movies.id = watched.movie_id
@@ -44,13 +43,16 @@ def create_tables():
 
 def add_vehicle(vehicle_year, vehicle_make, vehicle_model, vehicle_garage, active):
     with connection:
-        connection.execute(INSERT_VEHICLE, (vehicle_year, vehicle_make, vehicle_model, vehicle_garage, active))
+        connection.execute(INSERT_VEHICLE, (vehicle_year,
+                           vehicle_make, vehicle_model, vehicle_garage, active))
 
 
 def add_maintenance(vehicle_id, location, service_performed, price, vehicle_miles, service_date):
-    print(vehicle_id, location, service_performed, price, vehicle_miles, service_date)
+    print(vehicle_id, location, service_performed,
+          price, vehicle_miles, service_date)
     with connection:
-        connection.execute(INSERT_MAINTENANCE, (vehicle_id, location, service_performed, price, vehicle_miles, service_date))
+        connection.execute(INSERT_MAINTENANCE, (vehicle_id, location,
+                           service_performed, price, vehicle_miles, service_date))
 
 
 def search_maintenance():
@@ -59,16 +61,18 @@ def search_maintenance():
         cursor.execute(SEARCH_MAINTENANCE, (f'%{movie}%',))
         return cursor.fetchall()
 
+
 def get_vehicles():
     with connection:
         cursor = connection.cursor()
         cursor.execute(SELECT_ALL_VEHICLES)
         return cursor.fetchall()
 
+
 def get_all_maintenance():
     with connection:
         cursor = connection.cursor()
-        cursor.execute(SELECT_ALL_MAINTENANCE, (username,))
+        cursor.execute(SELECT_ALL_MAINTENANCE)
         return cursor.fetchall()
 
 

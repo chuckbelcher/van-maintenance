@@ -21,16 +21,16 @@ def add_vehicle():
     vehicle_garage = input("Where is the vehicle stored: ")
     vehicle_active = input("Is Vehicle active Y for yes or N for no: ")
     database.add_vehicle(
-                         vehicle_year,
-                         vehicle_make,
-                         vehicle_model,
-                         vehicle_garage,
-                         vehicle_active)
+        vehicle_year,
+        vehicle_make,
+        vehicle_model,
+        vehicle_garage,
+        vehicle_active)
 
 
 def add_maintenance():
     display_vehicles(database.get_vehicles())
-    
+
     vehicle_id = input("What is the id of the vehicle receiving maintenance: ")
     maintenance_location = input("Where was the vehicle serviced: ")
     service_performed = input("What service was performed: ")
@@ -48,12 +48,12 @@ def add_maintenance():
                              timestamp)
 
 
-def display_maintenance(vehicle_maintenance_list):
-    print(f"{heading} Maintenance List")
-    for vehicle_id, maintenance_localtion, service_performed, maintenance_cost, vehicle_miles, timestamp, in vehicle_maintenance_list:
+def display_maintenance_events(maintenance_list):
+    print(f"Maintenance List")
+    for maintenance_id, vehicle_id, maintenance_location, service_performed, vehicle_miles, maintenance_cost, timestamp, in maintenance_list:
         maintenance_date = datetime.datetime.fromtimestamp(
             timestamp).strftime("%b %d %Y")
-        print(f"{vehicle_id}: {maintenance_localtion} {service_performed} {maintenance_cost} {vehicle_miles} - performed on {maintenance_date}")
+        print(f"{vehicle_id}: {maintenance_id} {maintenance_location} {service_performed} {maintenance_cost} {vehicle_miles} - performed on {maintenance_date}")
     print("---\n")
 
 
@@ -66,7 +66,7 @@ def display_vehicles(vehicles):
             currentUse = "Not in use"
         print(vehicles)
         print(f"{_id}: {year} {make} {model} {currentUse} located at {garage}")
-    #print (vehicles)
+    # print (vehicles)
     print("---\n")
 
 
@@ -82,23 +82,9 @@ while (user_input := input(menu)) != '6':
         vehicles = database.get_vehicles()
         display_vehicles(vehicles)
     elif user_input == "4":
-        watch_movie()
+        maintenance = database.get_all_maintenance()
+        display_maintenance_events(maintenance)
     elif user_input == "5":
-        username = input('Username: ')
-        movies = database.get_watched_movies(username)
-        if movies:
-            display_movies(f'{username}\'s', movies)
-        else:
-            print(f'{username} has not watched any movies\n---\n')
-    elif user_input == "6":
-        add_user()
-    elif user_input == "7":
-        title = input('What movie would you like to search for? ')
-        print(f'Searching for {title}\n')
-        movies = database.search_movies(title)
-        if movies:
-            display_movies("Found", movies)
-        else:
-            print(f'No movies with {title} found in database\n')
+        pass
     else:
         print("You did not enter a valid selection")

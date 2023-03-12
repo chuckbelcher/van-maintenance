@@ -26,11 +26,17 @@ INSERT_MAINTENANCE = "INSERT INTO maintenance (vehicle_id, location, service_per
 INSERT_VEHICLE = "INSERT INTO vehicles (vehicle_year, vehicle_make, vehicle_model, vehicle_garage, active) VALUES (?, ?, ?, ?, ?)"
 SELECT_ALL_VEHICLES = "SELECT * FROM vehicles;"
 SELECT_ALL_MAINTENANCE = "SELECT * FROM maintenance;"
-SELECT_MAINTENANCE_FOR_VEHICLE = """SELECT movies.*
-                            FROM movies
-                            JOIN watched ON movies.id = watched.movie_id
-                            JOIN users ON users.username = watched.user_username
-                            WHERE users.username = ?;"""
+SELECT_MAINTENANCE_FOR_VEHICLE = """select v.vehicle_year,
+	                                    v.vehicle_make, 
+	                                    v.vehicle_model,
+	                                    v.vehicle_garage,
+	                                    m.vehicle_miles,
+	                                    m.location,
+	                                    m.service_performed,
+	                                    m.price 
+                                    from vehicles v
+                                    join maintenance m on v.id = m.vehicle_id 
+                                    where v.id = 1;"""
 
 connection = sqlite3.connect("data.db")
 
@@ -76,8 +82,8 @@ def get_all_maintenance():
         return cursor.fetchall()
 
 
-def get_maintenance_for_vehicle():
+def get_maintenance_for_vehicle(vehicle_id):
     with connection:
         cursor = connection.cursor()
-        cursor.execute(SELECT_ALL_MAINTENANCE, (username,))
+        cursor.execute(SELECT_MAINTENANCE_FOR_VEHICLE (vehicle_id,))
         return cursor.fetchall()

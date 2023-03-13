@@ -57,6 +57,10 @@ def display_maintenance_events(maintenance_list):
     print("---\n")
 
 
+def display_maintenance_for_vehicle(maintenance):
+    print(maintenance)
+
+
 def display_vehicles(vehicles):
     print(" Vehicle List")
     for _id, year, make, model, garage, active in vehicles:
@@ -85,6 +89,8 @@ while (user_input := input(menu)) != '6':
         maintenance = database.get_all_maintenance()
         display_maintenance_events(maintenance)
     elif user_input == "5":
-        pass
+        vehicle_id = input("What is the id of the vehicle: ")
+        maintenance = database.get_maintenance_for_vehicle(vehicle_id)
+        display_maintenance_for_vehicle(maintenance)
     else:
         print("You did not enter a valid selection")

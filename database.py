@@ -27,16 +27,16 @@ INSERT_VEHICLE = "INSERT INTO vehicles (vehicle_year, vehicle_make, vehicle_mode
 SELECT_ALL_VEHICLES = "SELECT * FROM vehicles;"
 SELECT_ALL_MAINTENANCE = "SELECT * FROM maintenance;"
 SELECT_MAINTENANCE_FOR_VEHICLE = """select v.vehicle_year,
-	                                    v.vehicle_make, 
+	                                    v.vehicle_make,
 	                                    v.vehicle_model,
 	                                    v.vehicle_garage,
 	                                    m.vehicle_miles,
 	                                    m.location,
 	                                    m.service_performed,
-	                                    m.price 
+	                                    m.price
                                     from vehicles v
-                                    join maintenance m on v.id = m.vehicle_id 
-                                    where v.id = 1;"""
+                                    join maintenance m on v.id = m.vehicle_id
+                                    where v.id = ?;"""
 
 connection = sqlite3.connect("data.db")
 
@@ -61,13 +61,6 @@ def add_maintenance(vehicle_id, location, service_performed, price, vehicle_mile
                            service_performed, price, vehicle_miles, service_date))
 
 
-def search_maintenance():
-    with connection:
-        cursor = connection.cursor()
-        cursor.execute(SEARCH_MAINTENANCE, (f'%{movie}%',))
-        return cursor.fetchall()
-
-
 def get_vehicles():
     with connection:
         cursor = connection.cursor()
@@ -85,5 +78,5 @@ def get_all_maintenance():
 def get_maintenance_for_vehicle(vehicle_id):
     with connection:
         cursor = connection.cursor()
-        cursor.execute(SELECT_MAINTENANCE_FOR_VEHICLE (vehicle_id,))
+        cursor.execute(SELECT_MAINTENANCE_FOR_VEHICLE, (vehicle_id))
         return cursor.fetchall()

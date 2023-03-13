@@ -1,7 +1,8 @@
+"""Module providingFunction for datetime conversionspython version."""
 import datetime
 import database
 
-menu = """Please select one of the following options: 
+menu = """Please select one of the following options:
  1) Add new Vehicle
  2) Add Maintenance Event
  3) View all Vehicles
@@ -49,7 +50,8 @@ def add_maintenance():
 
 
 def display_maintenance_events(maintenance_list):
-    print(f"Maintenance List")
+    """Function for displaying maintenance events for all vehicles"""
+    print("Maintenance List")
     for maintenance_id, vehicle_id, maintenance_location, service_performed, vehicle_miles, maintenance_cost, timestamp, in maintenance_list:
         maintenance_date = datetime.datetime.fromtimestamp(
             timestamp).strftime("%b %d %Y")
@@ -57,10 +59,11 @@ def display_maintenance_events(maintenance_list):
     print("---\n")
 
 
-def display_maintenance_for_vehicle(maintenance):
+def display_maintenance_for_vehicle(vehicle_maintenance):
+    """Function for displaying maintenance events for a specific vehicle"""
     # TODO Added maintenance date to output
-    for year, make, model, garage, milage, maintenance_location, service_performed,  maintenance_cost, in maintenance:
-        print(f"{year} {make} {model} housed at {garage} with {milage} miles was service at {maintenance_location} recieving {service_performed} for ${maintenance_cost}")
+    for year, make, model, garage, milage, maintenance_location, service_performed,  maintenance_cost, in vehicle_maintenance:
+        print(f"{year} {make} {model} housed at {garage} with {milage} miles was service at {maintenance_location} receiving {service_performed} for ${maintenance_cost}")
     print("---\n")
 
 
@@ -73,7 +76,6 @@ def display_vehicles(vehicles):
             currentUse = "Not in use"
         print(vehicles)
         print(f"{_id}: {year} {make} {model} {currentUse} located at {garage}")
-    # print (vehicles)
     print("---\n")
 
 

@@ -33,7 +33,8 @@ SELECT_MAINTENANCE_FOR_VEHICLE = """select v.vehicle_year,
 	                                    m.vehicle_miles,
 	                                    m.location,
 	                                    m.service_performed,
-	                                    m.price
+	                                    m.price,
+                                        m.service_date
                                     from vehicles v
                                     join maintenance m on v.id = m.vehicle_id
                                     where v.id = ?;"""

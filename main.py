@@ -61,9 +61,10 @@ def display_maintenance_events(maintenance_list):
 
 def display_maintenance_for_vehicle(vehicle_maintenance):
     """Function for displaying maintenance events for a specific vehicle"""
-    # TODO Added maintenance date to output
-    for year, make, model, garage, milage, maintenance_location, service_performed,  maintenance_cost, in vehicle_maintenance:
-        print(f"{year} {make} {model} housed at {garage} with {milage} miles was service at {maintenance_location} receiving {service_performed} for ${maintenance_cost}")
+    for year, make, model, garage, milage, maintenance_location, service_performed, maintenance_cost, service_date in vehicle_maintenance:
+        maintenance_date = datetime.datetime.fromtimestamp(
+            service_date).strftime("%b %d %Y")
+        print(f"{maintenance_date} - {year} {make} {model} housed at {garage} with {milage} miles was service at {maintenance_location} receiving {service_performed} for ${maintenance_cost}")
     print("---\n")
 
 

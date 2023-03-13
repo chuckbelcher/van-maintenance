@@ -58,7 +58,10 @@ def display_maintenance_events(maintenance_list):
 
 
 def display_maintenance_for_vehicle(maintenance):
-    print(maintenance)
+    # TODO Added maintenance date to output
+    for year, make, model, garage, milage, maintenance_location, service_performed,  maintenance_cost, in maintenance:
+        print(f"{year} {make} {model} housed at {garage} with {milage} miles was service at {maintenance_location} recieving {service_performed} for ${maintenance_cost}")
+    print("---\n")
 
 
 def display_vehicles(vehicles):

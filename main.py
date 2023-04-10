@@ -14,7 +14,6 @@ menu = """Please select one of the following options:
 
 welcome_message = "Sudzy Pets Van Maintenance Log"
 
-
 def add_vehicle():
     vehicle_year = input("What is the year for the vehicle: ")
     vehicle_make = input("What is the make for the vehicle: ")

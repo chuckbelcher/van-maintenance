@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "Sudzy"
-    ]
+    ],
+    "editor.fontSize": 16,
+    "editor.tabSize": 4,
+    "terminal.integrated.fontSize": 16,
 }

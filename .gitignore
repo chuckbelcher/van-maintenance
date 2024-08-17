@@ -1,4 +1,5 @@
 .vscode/
 data.db
+.idea
 .venv
 __pycache__/
